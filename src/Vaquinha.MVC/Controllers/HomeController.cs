@@ -27,10 +27,5 @@ namespace Vaquinha.MVC.Controllers
 
             return View(homeViewModel);
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
     }
 }

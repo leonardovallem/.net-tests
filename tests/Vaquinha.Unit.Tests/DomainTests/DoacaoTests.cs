@@ -21,6 +21,22 @@ namespace Vaquinha.Unit.Tests.DomainTests
         }
 
         [Fact]
+        [Trait("Doacao", "Doacao_UsuarioAceitaPagarTaxa_DoacaoValida")]
+        public void Doacao_UsuarioAceitaPagarTaxa_DoacaoValida()
+        {           
+            // Arrange
+            var doacao = _doacaoFixture.DoacaoValida(false, 5, false, true);
+            doacao.AdicionarEnderecoCobranca(_enderecoFixture.EnderecoValido());
+            doacao.AdicionarFormaPagamento(_cartaoCreditoFixture.CartaoCreditoValido());
+
+            // Act
+            var valido = doacao.Valido();
+
+            // Assert
+            doacao.Valor.Should().Be(6, "valor com taxa de 20%");
+        }
+
+        [Fact]
         [Trait("Doacao", "Doacao_CorretamentePreenchidos_DoacaoValida")]
         public void Doacao_CorretamentePreenchidos_DoacaoValida()
         {           
@@ -86,6 +102,7 @@ namespace Vaquinha.Unit.Tests.DomainTests
         [InlineData(5000.1)]
         [InlineData(4505)]
         [InlineData(4500.1)]
+        // [InlineData(4500)]
         [Trait("Doacao", "Doacao_ValoresDoacaoMaiorLimite_DoacaoInvalida")]
         public void Doacao_ValoresDoacaoMaiorLimite_DoacaoInvalida(double valorDoacao)
         {
